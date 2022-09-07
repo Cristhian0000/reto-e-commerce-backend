@@ -23,6 +23,15 @@ export class ProductsService {
     return found;
   }
 
+  async getCategories(): Promise<String[]> {
+    const products = await this.productRepository.find();
+    const categoriesMap = products.map((product) => product.category);
+    const categories = categoriesMap.filter(
+      (category, pos) => categoriesMap.indexOf(category) === pos,
+    );
+    return categories;
+  }
+
   createProduct(createProductDto: CreateProductDto): Promise<Product> {
     return this.productRepository.createProduct(createProductDto);
   }
